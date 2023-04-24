@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import ReactDOM from 'react-dom/client';
 // import './index.css';
 import './assets/style/reset.scss';
@@ -12,7 +12,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router}></RouterProvider>
+    <Suspense>
+      <RouterProvider router={router}></RouterProvider>
+    </Suspense>
   </React.StrictMode>
 );
 
