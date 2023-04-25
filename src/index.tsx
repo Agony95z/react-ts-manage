@@ -7,13 +7,18 @@ import './assets/style/common.scss';
 import reportWebVitals from './reportWebVitals';
 import { RouterProvider } from 'react-router-dom';
 import router from './router/index'
+
+import { Provider } from 'react-redux';
+import store from './store/index'
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
     <Suspense>
-      <RouterProvider router={router}></RouterProvider>
+      <Provider store={store}>
+        <RouterProvider router={router}></RouterProvider>
+      </Provider>
     </Suspense>
   </React.StrictMode>
 );

@@ -1,6 +1,6 @@
 import React, { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
-import type { RouteObject, Router } from "react-router-dom";
+import type { RouteObject } from "react-router-dom";
 
 import {
   CopyOutlined,
@@ -42,6 +42,7 @@ declare module "react-router" {
 export const routes: RouteObject[] = [
   {
     path: "/",
+    // 引入路由拦截
     element: React.createElement(BeforeEach, null, React.createElement(Home)),
     meta: {
       menu: true,
