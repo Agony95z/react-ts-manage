@@ -35,12 +35,12 @@ const userSlice = createSlice({
 })
 // login
 export const loginAction = createAsyncThunk('users/loginAction', async (payload: Login) => {
-  const ret = http.post("/users/login", payload);
+  const ret = await http.post("/users/login", payload);
   return ret;
 })
 // infos
 export const infosAction = createAsyncThunk('users/infosAction', async () => {
-  const ret = http.get("/users/infos");
+  const ret = await http.get("/users/infos");
   return ret;
 })
 export const {
@@ -48,4 +48,5 @@ export const {
   clearToken,
   updateInfos
 } = userSlice.actions
+
 export default userSlice.reducer
