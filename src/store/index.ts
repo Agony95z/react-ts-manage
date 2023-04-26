@@ -21,12 +21,12 @@ const persistConfig = {
 const store = configureStore({
   reducer: {
     users: persistReducer(persistConfig, userReducer), // 配置token持久化
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
-  }
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }),
 })
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
