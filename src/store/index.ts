@@ -3,12 +3,12 @@ import userReducer from "./modules/users";
 import {
   persistStore,
   persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
+  // FLUSH,
+  // REHYDRATE,
+  // PAUSE,
+  // PERSIST,
+  // PURGE,
+  // REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { useDispatch } from "react-redux";
@@ -23,9 +23,10 @@ const store = configureStore({
     users: persistReducer(persistConfig, userReducer), // 配置token持久化
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-    serializableCheck: {
-      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-    },
+    // serializableCheck: {
+    //   ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    // },
+    serializableCheck: false
   }),
 })
 export type RootState = ReturnType<typeof store.getState>

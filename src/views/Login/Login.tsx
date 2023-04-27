@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import {useAppDispatch} from '../../store/index'
 import type {RootState} from '../../store/'
 import { Button, message } from 'antd'
-import { loginAction } from '../../store/modules/users'
+import { loginAction, updateToken } from '../../store/modules/users'
 export default function Login() {
   const token = useSelector((state: RootState) => state.users.token)
   const dispatch = useAppDispatch()
@@ -11,7 +11,15 @@ export default function Login() {
     dispatch(loginAction({
       email: 'huangrong@imooc.com',
       pass: 'huangrong'
-    }))
+    })).then(action => {
+      const {token, errcode} = (action.payload as {[index: string]: unknown}).data as {[index: string]: unknown};
+      if (errcode === 0) {
+        dispatch(updateToken(token as string));
+        message.success('登录成功');
+      } else {
+        message.success('登录失败');
+      }
+    })
   }
   return (
     <div>
