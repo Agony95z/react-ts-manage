@@ -1,5 +1,8 @@
 import {configureStore} from "@reduxjs/toolkit";
+import type {Reducer, AnyAction} from "@reduxjs/toolkit";
+import type {UsersState} from './modules/users';
 import userReducer from "./modules/users";
+import { PersistPartial } from "redux-persist/es/persistReducer";
 import {
   persistStore,
   persistReducer,
@@ -12,6 +15,7 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { useDispatch } from "react-redux";
+
 const persistConfig = {
   key: 'root',
   version: 1,
@@ -20,7 +24,7 @@ const persistConfig = {
 }
 const store = configureStore({
   reducer: {
-    users: persistReducer(persistConfig, userReducer), // 配置token持久化
+    users: persistReducer(persistConfig, userReducer) as Reducer<UsersState & PersistPartial, AnyAction>, // 配置token持久化
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     // serializableCheck: {

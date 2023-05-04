@@ -5,7 +5,7 @@ type Token = string
 type Infos = {
   [propName: string]: unknown
 }
-type UsersState = {
+export type UsersState = {
   token: Token
   infos: Infos
 }
