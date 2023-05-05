@@ -1,4 +1,7 @@
 import axios, { type AxiosRequestConfig, type AxiosResponse } from 'axios';
+import store from '../store';
+import {clearToken} from '../store/modules/users'
+import { message } from 'antd';
 const instance = axios.create({
   baseURL: 'http://api.h5ke.top/',
   timeout: 5000,
@@ -7,6 +10,10 @@ const instance = axios.create({
 
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
+  if (config.headers) {
+    const token = store.getState().users.token;
+    config.headers.authorization = token;
+  }
   return config;
 }, function (error) {
   return Promise.reject(error);
@@ -14,6 +21,13 @@ instance.interceptors.request.use(function (config) {
 
 // 添加响应拦截器
 instance.interceptors.response.use(function (response) {
+  if (response.data.errmsg === 'token error') {
+    message.error('token error');
+    store.dispatch(clearToken())
+    setTimeout(() => {
+      window.location.replace('/login');
+    }, 1000);
+  }
   return response;
 }, function (error) {
   return Promise.reject(error);

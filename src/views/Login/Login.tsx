@@ -1,11 +1,10 @@
 import React from 'react';
-import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../store/index'
-import type { RootState } from '../../store/'
 import { loginAction, updateToken } from '../../store/modules/users'
 import styles from './Login.module.scss'
 import classNames from 'classnames'
 import { Button, Col, Form, Input, message, Row } from 'antd';
+import { useNavigate } from 'react-router-dom';
 export interface IUser {
   email: string
   pass: string
@@ -21,33 +20,37 @@ const testUsers: IUser[] = [
   },
 ];
 export default function Login() {
-  const token = useSelector((state: RootState) => state.users.token)
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
+
+  // 获取表单信息
+  const [form] = Form.useForm()
   const handleLogin = () => {
-    dispatch(loginAction({
-      email: 'huangrong@imooc.com',
-      pass: 'huangrong'
-    })).then(action => {
+    const values = form.getFieldsValue()
+    onFinish(values)
+  }
+  const onFinish = (values: IUser) => {
+    console.log('Success:', values);
+    dispatch(loginAction(values)).then(action => {
       const { token, errcode } = (action.payload as { [index: string]: unknown }).data as { [index: string]: unknown };
       if (errcode === 0) {
         dispatch(updateToken(token as string));
         message.success('登录成功');
+        navigate('/')
       } else {
-        message.success('登录失败');
+        message.error('登录失败');
       }
     })
-  }
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
+  const onFinishFailed = ({ values }: { values: IUser }) => {
+    console.log('Failed:', values);
   };
-  const autoLogin = (user: IUser) => {
-    // ruleForm.email = user.email;
-    // ruleForm.pass = user.pass;
-    return () => {}
+  const autoLogin = (values: IUser) => {
+    return () => {
+      form.setFieldsValue(values) // 设置数据回显
+      onFinish(values)
+    }
   }
   return (
     <div className={styles.login}>
@@ -72,25 +75,29 @@ export default function Login() {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
         className={styles.main}
+        form={form}
       >
         <Form.Item
           label="邮箱"
-          name="emial"
-          rules={[{ required: true, message: 'Please input your emial!' }]}
+          name="email"
+          rules={[
+            { required: true, message: '请输入邮箱' },
+            { type: 'email', message: '请输入正确的邮箱' }
+          ]}
         >
-          <Input placeholder='请输入邮箱' />
+          <Input placeholder='请输入邮箱' autoComplete="new-password" />
         </Form.Item>
 
         <Form.Item
           label="密码"
           name="pass"
-          rules={[{ required: true, message: 'Please input your password!' }]}
+          rules={[{ required: true, message: '请输入密码' }]}
         >
-          <Input.Password placeholder='请输入密码' />
+          <Input.Password placeholder='请输入密码' autoComplete="new-password" />
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" onClick={handleLogin}>
             登录
           </Button>
         </Form.Item>

@@ -1,5 +1,5 @@
 import React, { lazy } from "react";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import type { RouteObject } from "react-router-dom";
 
 import {
@@ -40,6 +40,11 @@ declare module "react-router" {
 }
 
 export const routes: RouteObject[] = [
+  // redirect
+  {
+    path: '/',
+    element: React.createElement(Navigate, {to: '/sign'})
+  },
   {
     path: "/",
     // 引入路由拦截
