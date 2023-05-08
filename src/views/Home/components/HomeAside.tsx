@@ -10,6 +10,7 @@ import {
   MenuUnfoldOutlined,
   PieChartOutlined,
 } from '@ant-design/icons';
+import styles from '../Home.module.scss'
 type MenuItem = Required<MenuProps>['items'][number];
 const items: MenuItem[] = [
   {
@@ -35,6 +36,7 @@ export default function HomeAside() {
         theme="light"
         inlineCollapsed={false}
         items={items}
+        className={styles['home-aside']}
       />
     </>
   )
