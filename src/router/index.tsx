@@ -27,7 +27,8 @@ declare module "react-router" {
       title?: string;
       icon?: React.ReactNode;
       auth?: boolean;
-    }
+    },
+    name?: string;
   }
   interface NonIndexRouteObject {
     meta?: {
@@ -35,7 +36,8 @@ declare module "react-router" {
       title?: string;
       icon?: React.ReactNode;
       auth?: boolean;
-    }
+    },
+    name?: string;
   }
 }
 
@@ -49,6 +51,7 @@ export const routes: RouteObject[] = [
     path: "/",
     // 引入路由拦截
     element: React.createElement(BeforeEach, null, React.createElement(Home)),
+    name: 'home',
     meta: {
       menu: true,
       title: '考勤管理',
@@ -59,6 +62,7 @@ export const routes: RouteObject[] = [
       {
         path: "sign",
         element: React.createElement(Sign),
+        name: 'sign',
         meta: {
           menu: true,
           title: '在线打卡签到',
@@ -69,6 +73,7 @@ export const routes: RouteObject[] = [
       {
         path: "exception",
         element: React.createElement(Exception),
+        name: 'exception',
         meta: {
           menu: true,
           title: '异常考勤查询',
@@ -79,6 +84,7 @@ export const routes: RouteObject[] = [
       {
         path: "apply",
         element: React.createElement(Apply),
+        name: 'apply',
         meta: {
           menu: true,
           title: '添加考勤审批',
@@ -89,6 +95,7 @@ export const routes: RouteObject[] = [
       {
         path: "check",
         element: React.createElement(Check),
+        name: 'check',
         meta: {
           menu: true,
           title: '我的考勤审批',
